@@ -179,6 +179,7 @@ let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
  sales:[],
  savedItems:[]
 };
+if(!localStorage.getItem("seller-helper-cleaned-v1")){data.inventory=[];localStorage.setItem("seller-helper-cleaned-v1","1");save();}
 const $=id=>document.getElementById(id), money=n=>"$"+Number(n||0).toFixed(2);
 if(!Array.isArray(data.savedItems))data.savedItems=[];
 function save(){localStorage.setItem(KEY,JSON.stringify(data));updateDash()}

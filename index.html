@@ -401,4 +401,4 @@ function comparePlatforms(){
 function calcShipping(){let w=+weight.value||0,base=w<=1?4.63:7.50+(w-1)*1.25;$("shipResult").innerHTML=`<div class="result"><div>Estimated Ground Shipping</div><div class="big">${money(base)}</div><div class="small">Prototype estimate for ${w} lb to ZIP ${$("zip").value}</div></div>`}
 applyFeePreset();show("home");
 </script>
-</body></html>
+<button id="saveListingBtn">💾 Save Listing</button></body></html>

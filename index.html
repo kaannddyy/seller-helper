@@ -41,7 +41,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
 <input id="lName" placeholder="Product name"><input id="lPrice" type="number" step=".01" placeholder="Price"><input id="lCondition" placeholder="Condition (ex: Brand new)"><input id="lNotes" placeholder="Extra details">
 <button class="primary" onclick="makeListing()">Generate Listing</button></div><div id="listingOut"></div></div></section>
 
-<section id="profit" class="page hidden"><div class="card"><h2>🧮 Calculate My Profit</h2><div class="form"><input id="cost" type="number" step=".01" placeholder="Your cost"><input id="sellPrice" type="number" step=".01" placeholder="Selling price"><button class="primary" onclick="calcProfit()">Calculate</button></div><div id="profitOut"></div></div></section>
+<section id="saved" class="page hidden"><div class="card"><h2>💾 Saved Listings</h2><div id="savedList"><div class="empty">No saved listings yet.</div></div></div></section><section id="profit" class="page hidden"><div class="card"><h2>🧮 Calculate My Profit</h2><div class="form"><input id="cost" type="number" step=".01" placeholder="Your cost"><input id="sellPrice" type="number" step=".01" placeholder="Selling price"><button class="primary" onclick="calcProfit()">Calculate</button></div><div id="profitOut"></div></div></section>
 
 <section id="price" class="page hidden"><div class="card"><h2>🏷️ What Should I Charge?</h2><div class="form"><input id="itemCost" type="number" step=".01" placeholder="What you paid"><input id="desiredProfit" type="number" step=".01" placeholder="Desired profit"><button class="primary" onclick="calcPrice()">Calculate Price</button></div><div id="priceOut"></div></div></section>
 
@@ -50,7 +50,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
 <section id="sell" class="page hidden"><div class="card"><h2>📸 Snap It & Sell It</h2><p>Take or upload a product photo, then use Create a Listing to write your listing text.</p><button class="primary" onclick="show('listing')">Create Listing</button></div></section>
 </main>
 <nav>
-<button class="active" onclick="show('home')">🏠<br>Home</button><button onclick="show('profit')">💰<br>Profit</button><button onclick="show('inventory')">📦<br>Inventory</button><button onclick="show('sales')">💵<br>Sales</button><button onclick="show('listing')">📝<br>Listing</button><button onclick="show('sell')">📸<br>Sell</button>
+<button class="active" onclick="show('home')">🏠<br>Home</button><button onclick="show('profit')">💰<br>Profit</button><button onclick="show('inventory')">📦<br>Inventory</button><button onclick="show('sales')">💵<br>Sales</button><button onclick="show('listing')">📝<br>Listing</button><button onclick="show('sell')">📸<br>Sell</button><button onclick="show('saved')">💾<br>Saved</button>
 </nav>
 </div>
 <script>

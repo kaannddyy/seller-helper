@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#6d35d9">
+<title>Seller Helper</title>
+<style>
+:root{--p:#6d35d9;--p2:#8a5be8;--ink:#20203a;--muted:#70708a;--bg:#f5f1ff;--green:#dff7e8;--pink:#fde7f0;--blue:#e5efff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.app{max-width:650px;margin:auto;min-height:100vh;padding-bottom:90px}.top{background:white;padding:24px 20px 18px;border-bottom:1px solid #ddd}.logo{font-size:36px;font-weight:850;color:var(--p)}.tag{font-size:17px;color:var(--muted);font-weight:650;margin-top:4px}
+main{padding:18px}.card{background:white;border-radius:24px;padding:22px;margin-bottom:18px;box-shadow:0 2px 12px #00000008}h1,h2{margin:0 0 16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:#faf9ff;border-radius:18px;padding:18px;text-align:center}.stat b{display:block;font-size:30px;margin-top:5px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.tile{border:0;border-radius:20px;padding:22px 16px;text-align:left;font-size:16px;font-weight:800;color:#2980e8;min-height:105px}.green{background:var(--green)}.pink{background:var(--pink)}.blue{background:var(--blue)}
+button,input,select{font:inherit}button{cursor:pointer}.primary{width:100%;border:0;border-radius:14px;padding:13px;background:var(--p);color:white;font-weight:800}.secondary{border:0;border-radius:12px;padding:10px 14px;background:#eeeaff;color:var(--p);font-weight:750}
+.search{width:100%;padding:14px;border:2px solid #e5e0f5;border-radius:14px;margin-bottom:14px}.product{border:1px solid #e7e3f2;border-radius:18px;padding:15px;margin:10px 0}.prow{display:flex;justify-content:space-between;gap:10px;align-items:center}.qty{display:flex;align-items:center;gap:8px}.qty button{width:34px;height:34px;border:0;border-radius:10px;background:#eeeaff;color:var(--p);font-size:20px;font-weight:800}.price{color:var(--p);font-weight:800}.empty{color:var(--muted);text-align:center;padding:20px}.form{display:grid;gap:10px}.form input,.form select{padding:12px;border:1px solid #ddd7ed;border-radius:12px}.notice{background:#fff7d6;border-radius:14px;padding:12px;margin-bottom:14px;font-size:14px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 3px;z-index:5}nav button{border:0;background:white;color:#666;font-weight:750;font-size:12px;padding:7px 4px}nav button.active{color:var(--p)}
+.hidden{display:none!important}@media(max-width:430px){.logo{font-size:32px}.grid{gap:10px}.tile{padding:17px 12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="logo">🛍️ Seller Helper</div><div class="tag">Sell smarter. Make more.</div></header>
+<main>
+<section id="home" class="page">
+<div class="card"><h2>Seller Dashboard</h2><div class="stats">
+<div class="stat">Items in stock<b id="stockStat">0</b></div><div class="stat">Sales<b id="salesStat">$0.00</b></div>
+<div class="stat">Profit<b id="profitStat">$0.00</b></div><div class="stat">Products<b id="productStat">0</b></div>
+</div></div>
+<h2>What do you want to do?</h2>
+<div class="grid">
+<button class="tile green" onclick="show('profit')">🧮<br><br>Calculate My Profit</button>
+<button class="tile green" onclick="show('sales')">💰<br><br>Real Profit</button>
+<button class="tile pink" onclick="show('price')">🏷️<br><br>What Should I Charge?</button>
+<button class="tile blue" onclick="show('inventory')">📦<br><br>Track Inventory</button>
+<button class="tile pink" onclick="show('sell')">📸<br><br>Snap It & Sell It</button>
+<button class="tile" style="background:white" onclick="show('listing')">📝<br><br>Create a Listing</button>
+</div></section>
+
+<section id="inventory" class="page hidden"><div class="card"><h2>📦 Track Inventory</h2><input id="search" class="search" placeholder="Search products..." oninput="renderProducts()"><div id="products"></div><button class="primary" onclick="addProduct()">+ Add Product</button></div></section>
+
+<section id="listing" class="page hidden"><div class="card"><h2>📝 Create a Listing</h2><div class="form">
+<input id="lName" placeholder="Product name"><input id="lPrice" type="number" step=".01" placeholder="Price"><input id="lCondition" placeholder="Condition (ex: Brand new)"><input id="lNotes" placeholder="Extra details">
+<button class="primary" onclick="makeListing()">Generate Listing</button></div><div id="listingOut"></div></div></section>
+
+<section id="profit" class="page hidden"><div class="card"><h2>🧮 Calculate My Profit</h2><div class="form"><input id="cost" type="number" step=".01" placeholder="Your cost"><input id="sellPrice" type="number" step=".01" placeholder="Selling price"><button class="primary" onclick="calcProfit()">Calculate</button></div><div id="profitOut"></div></div></section>
+
+<section id="price" class="page hidden"><div class="card"><h2>🏷️ What Should I Charge?</h2><div class="form"><input id="itemCost" type="number" step=".01" placeholder="What you paid"><input id="desiredProfit" type="number" step=".01" placeholder="Desired profit"><button class="primary" onclick="calcPrice()">Calculate Price</button></div><div id="priceOut"></div></div></section>
+
+<section id="sales" class="page hidden"><div class="card"><h2>💰 Real Profit</h2><div class="notice">Enter your sale price and cost to see your estimated profit.</div><div class="form"><input id="saleAmount" type="number" step=".01" placeholder="Sale amount"><input id="saleCost" type="number" step=".01" placeholder="Item cost"><button class="primary" onclick="recordSale()">Record Sale</button></div><div id="salesOut"></div></div></section>
+
+<section id="sell" class="page hidden"><div class="card"><h2>📸 Snap It & Sell It</h2><p>Take or upload a product photo, then use Create a Listing to write your listing text.</p><button class="primary" onclick="show('listing')">Create Listing</button></div></section>
+</main>
+<nav>
+<button class="active" onclick="show('home')">🏠<br>Home</button><button onclick="show('profit')">💰<br>Profit</button><button onclick="show('inventory')">📦<br>Inventory</button><button onclick="show('sales')">💵<br>Sales</button><button onclick="show('listing')">📝<br>Listing</button><button onclick="show('sell')">📸<br>Sell</button>
+</nav>
+</div>
+<script>
+const KEY='sellerHelperInventory';
+let products=JSON.parse(localStorage.getItem(KEY)||'null')||[
+{name:'Halloween Dumplings',stock:14,cost:0,price:10},
+{name:'Slow Rise Mystery Dumplings',stock:10,cost:0,price:10},
+{name:'Squishy Fun Friends',stock:13,cost:0,price:8},
+{name:'Icy Ice Gummy Cube',stock:2,cost:0,price:10},
+{name:'Gummy Palz',stock:9,cost:0,price:6},
+{name:'Squish Attack',stock:4,cost:0,price:6}
+];
+let sales=Number(localStorage.getItem('sellerHelperSales')||0), profit=Number(localStorage.getItem('sellerHelperProfit')||0);
+function save(){localStorage.setItem(KEY,JSON.stringify(products));localStorage.setItem('sellerHelperSales',sales);localStorage.setItem('sellerHelperProfit',profit);updateStats()}
+function updateStats(){stockStat.textContent=products.reduce((a,p)=>a+Number(p.stock||0),0);productStat.textContent=products.length;salesStat.textContent='$'+sales.toFixed(2);profitStat.textContent='$'+profit.toFixed(2)}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));let b=[...document.querySelectorAll('nav button')].find(x=>x.textContent.toLowerCase().includes(id==='home'?'home':id));if(b)b.classList.add('active');if(id==='inventory')renderProducts();window.scrollTo(0,0)}
+function renderProducts(){let q=(search?.value||'').toLowerCase();let box=document.getElementById('products');let list=products.filter(p=>p.name.toLowerCase().includes(q));box.innerHTML=list.length?list.map((p,i)=>{let real=products.indexOf(p);return `<div class="product"><div class="prow"><strong>${esc(p.name)}</strong><span class="price">$${Number(p.price||0).toFixed(2)}</span></div><div class="prow" style="margin-top:12px"><span>Stock: <b>${p.stock}</b></span><div class="qty"><button onclick="changeStock(${real},-1)">−</button><button onclick="changeStock(${real},1)">+</button><button class="secondary" onclick="removeProduct(${real})">Delete</button></div></div></div>`}).join(''):'<div class="empty">No products found.</div>'}
+function changeStock(i,n){products[i].stock=Math.max(0,Number(products[i].stock)+n);save();renderProducts()}
+function removeProduct(i){if(confirm('Delete this product?')){products.splice(i,1);save();renderProducts()}}
+function addProduct(){let name=prompt('Product name');if(!name)return;let stock=Number(prompt('Starting stock','0')||0),price=Number(prompt('Selling price','0')||0);products.push({name,stock,price,cost:0});save();renderProducts()}
+function calcProfit(){let c=Number(cost.value),s=Number(sellPrice.value);profitOut.innerHTML=`<div class="notice">Estimated profit: <b>$${(s-c).toFixed(2)}</b></div>`}
+function calcPrice(){let c=Number(itemCost.value),p=Number(desiredProfit.value);priceOut.innerHTML=`<div class="notice">Suggested price: <b>$${(c+p).toFixed(2)}</b></div>`}
+function recordSale(){let s=Number(saleAmount.value),c=Number(saleCost.value);sales+=s;profit+=s-c;save();salesOut.innerHTML=`<div class="notice">Sale recorded. Profit: <b>$${(s-c).toFixed(2)}</b></div>`}
+function makeListing(){let n=lName.value||'Product',p=lPrice.value||'0',co=lCondition.value||'Brand new',notes=lNotes.value||'Slow rising, soft and cute!';listingOut.innerHTML=`<div class="card" style="margin-top:14px;background:#faf9ff"><b>${esc(n)}</b><p>✨ ${esc(n)}</p><p>${esc(notes)}</p><p>Condition: ${esc(co)}</p><p>Price: $${Number(p).toFixed(2)}</p><button class="secondary" onclick="copyListing(this)">Copy Listing</button></div>`}
+function copyListing(btn){navigator.clipboard?.writeText(btn.parentElement.innerText.replace('Copy Listing','')).then(()=>btn.textContent='Copied!')}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+updateStats();
+</script>
+</body></html>

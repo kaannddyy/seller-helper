@@ -55,14 +55,7 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
 </div>
 <script>
 const KEY='sellerHelperInventory';
-let products=JSON.parse(localStorage.getItem(KEY)||'null')||[
-{name:'Halloween Dumplings',stock:14,cost:0,price:10},
-{name:'Slow Rise Mystery Dumplings',stock:10,cost:0,price:10},
-{name:'Squishy Fun Friends',stock:13,cost:0,price:8},
-{name:'Icy Ice Gummy Cube',stock:2,cost:0,price:10},
-{name:'Gummy Palz',stock:9,cost:0,price:6},
-{name:'Squish Attack',stock:4,cost:0,price:6}
-];
+let products=JSON.parse(localStorage.getItem(KEY)||'[]');
 let sales=Number(localStorage.getItem('sellerHelperSales')||0), profit=Number(localStorage.getItem('sellerHelperProfit')||0);
 function save(){localStorage.setItem(KEY,JSON.stringify(products));localStorage.setItem('sellerHelperSales',sales);localStorage.setItem('sellerHelperProfit',profit);updateStats()}
 function updateStats(){stockStat.textContent=products.reduce((a,p)=>a+Number(p.stock||0),0);productStat.textContent=products.length;salesStat.textContent='$'+sales.toFixed(2);profitStat.textContent='$'+profit.toFixed(2)}

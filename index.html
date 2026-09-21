@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+hi<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -54,7 +54,8 @@ nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid
 <button class="active" onclick="show('home')">🏠<br>Home</button><button onclick="show('profit')">💰<br>Profit</button><button onclick="show('inventory')">📦<br>Inventory</button><button onclick="show('sales')">💵<br>Sales</button><button onclick="show('listing')">📝<br>Listing</button><button onclick="show('sell')">📸<br>Sell</button><button onclick="show('saved')">💾<br>Saved</button>
 </nav>
 </div>
-<script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <script>
 const KEY='sellerHelperInventory';
 let products=JSON.parse(localStorage.getItem(KEY)||'[]');
 let sales=Number(localStorage.getItem('sellerHelperSales')||0), profit=Number(localStorage.getItem('sellerHelperProfit')||0);
